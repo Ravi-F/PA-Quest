@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz de Progressão Aritmética</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="gameContainer">
+        <!-- Tela Inicial -->
+        <div id="startScreen" class="screen active">
+            <div class="intro-container">
+                <h1 class="intro-title">Quiz de Progressão Aritmética</h1>
+                <p class="intro-subtitle">Teste seus conhecimentos com 10 perguntas desafiadoras</p>
+                <p class="intro-description">Atenção: respostas erradas ativam minigames desafiadores!</p>
+                <button id="startBtn" class="btn intro-button">Começar Quiz</button>
+            </div>
+        </div>
+
+        <!-- Tela do Quiz -->
+        <div id="quizScreen" class="screen">
+            <div class="quiz-header">
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div id="progressFill" class="progress-fill"></div>
+                    </div>
+                    <div id="questionCounter" class="progress-text">Pergunta 1 de 10</div>
+                </div>
+                <div class="quiz-stats">
+                    <div class="stat-item">
+                        <div class="stat-label">Pontos</div>
+                        <div id="score" class="stat-value">0</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <h2 id="questionText" class="question-text"></h2>
+                <div id="answersContainer" class="answers"></div>
+            </div>
+        </div>
+
+        <!-- Tela do Minigame -->
+        <div id="minigameScreen" class="screen">
+            <div class="minigame-header">
+                <h2>O Minigame Mais Difícil!</h2>
+                <p>Use as setas para mover o quadrado vermelho até o objetivo verde</p>
+                <p>Evite os inimigos azuis!</p>
+                <div class="minigame-stats">
+                    <div class="minigame-stat">
+                        <span class="minigame-stat-label">Vidas:</span>
+                        <span id="lives" class="minigame-stat-value">3</span>
+                    </div>
+                    <div class="minigame-stat">
+                        <span class="minigame-stat-label">Tentativas:</span>
+                        <span id="attempts" class="minigame-stat-value">1</span>
+                    </div>
+                    <div class="minigame-stat">
+                        <span class="minigame-stat-label">Fase:</span>
+                        <span id="phase" class="minigame-stat-value">1</span>
+                    </div>
+                </div>
+            </div>
+            
+            <canvas id="gameCanvas" width="600" height="400"></canvas>
+            
+            <div class="minigame-controls">
+                <button id="restartMinigameBtn" class="btn btn-secondary">Reiniciar</button>
+                <button id="skipMinigameBtn" class="btn btn-accent">Pular (-5 pts)</button>
+            </div>
+        </div>
+
+        <!-- Tela Final -->
+        <div id="endScreen" class="screen">
+            <h1 id="endTitle">Jogo Concluído!</h1>
+            <div class="final-stats">
+                <h3>Estatísticas Finais</h3>
+                <div class="stat-row">
+                    <span class="stat-label">Pontuação Final</span>
+                    <span id="finalScore" class="stat-value">0</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Respostas Corretas</span>
+                    <span id="correctAnswers" class="stat-value">0/10</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Tentativas no Minigame</span>
+                    <span id="minigameAttempts" class="stat-value">0</span>
+                </div>
+            </div>
+            <button id="playAgainBtn" class="btn">Jogar Novamente</button>
+        </div>
+    </div>
+
+    <!-- Container de Notificações -->
+    <div id="notificationContainer"></div>
+
+    <!-- Loading Screen -->
+    <div class="loading-screen">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <div class="loading-text">Carregando Quiz...</div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
