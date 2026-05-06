@@ -319,8 +319,20 @@ class QuizGame {
         this.minigameAttempts++;
         document.getElementById('attempts').textContent = `Tentativas: ${this.minigameAttempts}`;
         
+        // Criar minigame se não existir
+        if (!this.minigame) {
+            this.minigame = new Minigame(() => this.minigameCompleted(true), 
+                                         () => this.minigameCompleted(false));
+            // Passar referência do jogo para o minigame
+            window.quizGame = this;
+            this.minigame.game = this;
+        }
+        
         // Obter dificuldade da pergunta atual
         const currentQuestion = this.quizQuestions[this.currentQuestion];
+        const difficulty = currentQuestion ? currentQuestion.difficulty : 'medium';
+        
+        console.log('Iniciando minigame com dificuldade:', difficulty);
         this.minigame.startWithDifficulty(difficulty);
     }
 
@@ -427,7 +439,21 @@ class QuizGame {
 class Minigame {
     constructor(onComplete, onFail) {
         this.canvas = document.getElementById('gameCanvas');
+        
+        // Verificar se o canvas existe
+        if (!this.canvas) {
+            console.error('Canvas do minigame não encontrado!');
+            return;
+        }
+        
         this.ctx = this.canvas.getContext('2d');
+        
+        // Verificar se o contexto foi criado
+        if (!this.ctx) {
+            console.error('Contexto 2D do canvas não pôde ser criado!');
+            return;
+        }
+        
         this.onComplete = onComplete;
         this.onFail = onFail;
         
@@ -459,8 +485,13 @@ class Minigame {
         this.gameRunning = false;
         this.animationId = null;
         
-        this.setupControls();
-        this.loadPhase(this.currentPhase);
+        // Só configurar se o canvas existir
+        if (this.canvas && this.ctx) {
+            this.setupControls();
+            this.loadPhase(this.currentPhase);
+        } else {
+            console.error('Minigame não pode ser inicializado - canvas não encontrado');
+        }
     }
 
     loadPhase(phaseNumber) {
@@ -576,6 +607,13 @@ class Minigame {
     }
 
     startWithDifficulty(difficulty) {
+        // Verificar se o canvas está disponível
+        if (!this.canvas || !this.ctx) {
+            console.error('Canvas não disponível para iniciar o minigame');
+            return;
+        }
+        
+        console.log('Starting minigame with difficulty:', difficulty);
         this.gameRunning = true;
         this.lives = 3;
         this.player.x = 50;
@@ -655,13 +693,13 @@ class Minigame {
         document.getElementById('phase').textContent = `Fase: ${this.currentPhase}`;
     }
 
-    gameLoop() {
+    gameLoop(timestamp = 0) {
         if (!this.gameRunning) return;
         
-        this.update();
+        this.update(timestamp);
         this.draw();
         
-        this.animationId = requestAnimationFrame(() => this.gameLoop());
+        this.animationId = requestAnimationFrame((time) => this.gameLoop(time));
     }
 
     update() {
