@@ -287,6 +287,7 @@ class QuizGame {
             // Resposta correta
             answerBtns[selectedAnswer].classList.add('correct');
             this.score += 10;
+            this.correctAnswers++;
             this.updateScore();
             
             this.showNotification('Resposta correta! +10 pontos', 'success', 2000);
@@ -408,34 +409,7 @@ class QuizGame {
     }
 }
 
-/**
- * ======================================================================
- * CLASSE MINIGAME - SISTEMA DE JOGO ADAPTATIVO
- * ======================================================================
- * 
- * Implementação do minigame inspirado em "The Hardest Game"
- * com física realista e padrões de movimento variados.
- * 
- * Características:
- * - Canvas-based rendering para performance otimizada
- * - Sistema de 5 fases com dificuldade crescente
- * - Física 2D com colisão precisa
- * - Múltiplos padrões de movimento de inimigos
- * - Adaptação de dificuldade baseada na pergunta do quiz
- * 
- * Padrões de Movimento:
- * - Fase 1: Movimento horizontal (básico)
- * - Fase 2: Movimento vertical (simples)
- * - Fase 3: Movimento diagonal (médio)
- * - Fase 4: Movimento circular (difícil)
- * - Fase 5: Movimento em zigzag (expert)
- * 
- * Física:
- * - Velocidade constante do jogador
- * - Detecção de colisão por bounding box
- * - Sistema de vidas e tentativas
- * ======================================================================
- */
+
 class Minigame {
     constructor(onComplete, onFail) {
         this.canvas = document.getElementById('gameCanvas');
